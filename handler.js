@@ -30,6 +30,13 @@ module.exports.realizarPedido = (event, context, callback) => {
 	});
 };
 
+module.exports.prepararPedido = (event, context, callback) => {
+	console.log('Se invocó a PrepararPedido');
+
+	console.log(event);
+	callback();
+};
+
 function sendResponse(statusCode, message, callback) {
 	const response = {
 		statusCode: statusCode,
