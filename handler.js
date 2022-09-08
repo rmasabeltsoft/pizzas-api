@@ -3,6 +3,8 @@
 const { v1: uuidv1 } = require('uuid');
 const AWS = require('aws-sdk');
 
+const orderMetadataManager = require('./orderMetadataManager');
+
 AWS.config.update({region: process.env.REGION});
 
 var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
@@ -42,8 +44,16 @@ module.exports.realizarPedido = (event, context, callback) => {
 module.exports.prepararPedido = (event, context, callback) => {
 	console.log('Se invocó a PrepararPedido');
 
-	console.log(event);
-	callback();
+	const order = JSON.parse(event.Records[0].body);
+
+	orderMetadataManager
+		.saveCompletedOrder(order)
+		.then(data => {
+			callback();
+		})
+		.catch(error => {
+			callback(error);
+		});
 };
 
 function sendResponse(statusCode, message, callback) {
