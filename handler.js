@@ -10,10 +10,19 @@ const QUEUE_URL = process.env.PENDING_ORDER_QUEUE;
 
 module.exports.realizarPedido = (event, context, callback) => {
   console.log('Se invocó a RealizarPedido');
-  const orderId = uuidv1();
+
+	const body = JSON.parse(event.body);
+
+	const order = {
+		orderId: uuidv1(),
+		name: body.name,
+		address: body.address,
+		pizzas: body.pizzas,
+		timestamp: Date.now()
+	};
 
 	const params = {
-		MessageBody: JSON.stringify({ orderId: orderId }),
+		MessageBody: JSON.stringify(order),
 		QueueUrl: QUEUE_URL
 	};
 
@@ -22,7 +31,7 @@ module.exports.realizarPedido = (event, context, callback) => {
 			sendResponse(500, err, callback);
 		} else {
 			const message = {
-				orderId: orderId,
+				order: order,
 				messageId: data.MessageId
 			};
 			sendResponse(200, message, callback);
