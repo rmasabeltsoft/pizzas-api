@@ -28,7 +28,7 @@ module.exports.saveCompletedOrder = order => {
 };
 
 module.exports.deliverOrder = orderId => {
-	console.log('Enviar una orden fue llamado');
+	console.log('Se invocó a EnviarOrden');
 
 	const params = {
 		TableName: process.env.COMPLETED_ORDER_TABLE,
@@ -47,7 +47,25 @@ module.exports.deliverOrder = orderId => {
 		.update(params)
 		.promise()
 		.then(response => {
-			console.log('order delivered');
+			console.log('Orden entregada');
 			return response.Attributes;
+		});
+};
+
+module.exports.getOrder = orderId => {
+	console.log('Se invocó a ObtenerOrden');
+
+	const params = {
+		TableName: process.env.COMPLETED_ORDER_TABLE,
+		Key: {
+			orderId
+		}
+	};
+
+	return dynamo
+		.get(params)
+		.promise()
+		.then(item => {
+			return item.Item;
 		});
 };
