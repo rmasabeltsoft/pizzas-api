@@ -12,6 +12,7 @@ provider:
       Ref: PendingOrdersQueue
     PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
     COMPLETED_ORDER_TABLE: CompletedOrderTable
+    SUFFIX: 
 
   iamRoleStatements:
     - Effect: "Allow"
@@ -66,7 +67,7 @@ resources:
     PendingOrdersQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: ${self:provider.environment.PENDING_ORDER_QUEUE_NAME}
+        QueueName: "${self:provider.environment.PENDING_ORDER_QUEUE_NAME}_${opt:stage, 'dev'}"
     CompletedOrdersTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
@@ -79,6 +80,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.COMPLETED_ORDER_TABLE}
+        TableName: "${self:provider.environment.COMPLETED_ORDER_TABLE}_${opt:stage, 'dev'}"
         StreamSpecification:
           StreamViewType: NEW_IMAGE
