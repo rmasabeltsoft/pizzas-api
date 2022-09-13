@@ -20,7 +20,7 @@ module.exports.saveCompletedOrder = order => {
 	order.delivery_status = 'READY_FOR_DELIVERY';
 
 	const params = {
-		TableName: process.env.COMPLETED_ORDER_TABLE,
+		TableName: process.env.COMPLETED_ORDER_TABLE + "-" + process.env.SUFFIX,
 		Item: order
 	};
 
@@ -31,7 +31,7 @@ module.exports.deliverOrder = orderId => {
 	console.log('Se invocó a EnviarOrden');
 
 	const params = {
-		TableName: process.env.COMPLETED_ORDER_TABLE,
+		TableName: process.env.COMPLETED_ORDER_TABLE + "-" + process.env.SUFFIX,
 		Key: {
 			orderId
 		},
@@ -56,7 +56,7 @@ module.exports.getOrder = orderId => {
 	console.log('Se invocó a ObtenerOrden');
 
 	const params = {
-		TableName: process.env.COMPLETED_ORDER_TABLE,
+		TableName: process.env.COMPLETED_ORDER_TABLE + "-" + process.env.SUFFIX,
 		Key: {
 			orderId
 		}

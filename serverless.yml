@@ -12,13 +12,13 @@ provider:
       Ref: PendingOrdersQueue
     PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
     COMPLETED_ORDER_TABLE: CompletedOrderTable
-    SUFFIX: 
+    SUFFIX: ${opt:stage, self:provider.stage}
 
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "sqs:SendMessage"
-      Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+      Resource: "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}-${self:provider.environment.SUFFIX}"
     - Effect: "Allow"
       Action:
         - "dynamodb:GetItem"
@@ -26,7 +26,7 @@ provider:
         - "dynamodb:UpdateItem"
         - "dynamodb:DeleteItem"
       Resource:
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COMPLETED_ORDER_TABLE}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COMPLETED_ORDER_TABLE}-${self:provider.environment.SUFFIX}"
 
 functions:
   realizarPedido:
@@ -67,7 +67,7 @@ resources:
     PendingOrdersQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "${self:provider.environment.PENDING_ORDER_QUEUE_NAME}_${opt:stage, 'dev'}"
+        QueueName: "${self:provider.environment.PENDING_ORDER_QUEUE_NAME}-${self:provider.environment.SUFFIX}"
     CompletedOrdersTable:
       Type: "AWS::DynamoDB::Table"
       Properties:
@@ -80,6 +80,6 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: "${self:provider.environment.COMPLETED_ORDER_TABLE}_${opt:stage, 'dev'}"
+        TableName: "${self:provider.environment.COMPLETED_ORDER_TABLE}-${self:provider.environment.SUFFIX}"
         StreamSpecification:
           StreamViewType: NEW_IMAGE
