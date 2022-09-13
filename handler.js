@@ -12,6 +12,7 @@ const QUEUE_URL = process.env.PENDING_ORDER_QUEUE + "-" + process.env.SUFFIX;
 
 module.exports.realizarPedido = (event, context, callback) => {
   console.log('Se invocó a RealizarPedido');
+  console.log('QUEUE_URL: ' + QUEUE_URL);
 
 	const body = JSON.parse(event.body);
 
