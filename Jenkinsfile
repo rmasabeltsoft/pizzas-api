@@ -37,7 +37,7 @@ pipeline {
 
       stage('Test_Kiuwan') {
          when {
-            branch 'dev';
+            branch 'qa';
          }
          steps {
             echo 'Testing Kiuwan...'
@@ -47,7 +47,7 @@ pipeline {
 
       stage('Test_Snyk_SCA') {
          when {
-            branch 'dev';
+            branch 'qa';
          }
          steps {
             echo 'Testing Snyk SCA...'
@@ -61,7 +61,7 @@ pipeline {
 
       stage('Test_Snyk_SAST') {
          when {
-            branch 'dev';
+            branch 'qa';
          }
          steps {
             echo 'Testing Snyk SAST...'
@@ -83,7 +83,7 @@ pipeline {
             }
          }
          steps {
-            sh 'sls package'
+            sh 'serverless package'
          }
       }
 
