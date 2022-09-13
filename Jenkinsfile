@@ -80,16 +80,12 @@ pipeline {
          }
       }
 
-      stage('Package') {
+      stage('Package DEV') {
          when {
-            anyOf {
-               branch 'dev'
-               branch 'qa'
-               branch 'main'
-            }
+            branch 'dev'
          }
          steps {
-            sh 'serverless package'
+            sh 'serverless package --stage dev'
          }
       }
 
