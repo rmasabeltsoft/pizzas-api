@@ -125,7 +125,7 @@ pipeline {
          }
       }
 
-      stage('Deploy to Production') {
+      stage('Deploy to PROD') {
          when {
             branch 'main'
          }
