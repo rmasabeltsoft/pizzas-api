@@ -41,7 +41,7 @@ pipeline {
          }
          steps {
             echo 'Testing Kiuwan...'
-            kiuwan applicationName: 'Pizzas API', connectionProfileUuid: '5PIH-WqhL', failureThreshold: 60.0, label: '00008', sourcePath: '/home/jenkins/jenkins_slave/workspace/aceTsoft_PizzasAPIMultibranch_dev', unstableThreshold: 96.0
+            kiuwan applicationName: 'Pizzas API', connectionProfileUuid: '5PIH-WqhL', failureThreshold: 60.0, label: '00008', sourcePath: '/home/jenkins/jenkins_slave/workspace/ceTsoft_PizzasAPIMultibranch_dev', unstableThreshold: 96.0
          }
       }
 
