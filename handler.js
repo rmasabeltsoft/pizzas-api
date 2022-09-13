@@ -8,7 +8,7 @@ const orderMetadataManager = require('./orderMetadataManager');
 AWS.config.update({region: process.env.REGION});
 
 var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-const QUEUE_URL = process.env.PENDING_ORDER_QUEUE;
+const QUEUE_URL = process.env.PENDING_ORDER_QUEUE + "-" + process.env.SUFFIX;
 
 module.exports.realizarPedido = (event, context, callback) => {
   console.log('Se invocó a RealizarPedido');
