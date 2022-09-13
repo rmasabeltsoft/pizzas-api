@@ -6,6 +6,12 @@ pipeline {
 
    stages {
       
+      stage('Setup') {
+         steps {
+            sh 'npm install serverless'
+         }
+      }
+      
       stage('Node Build') {
          steps {
             sh 'npm install'
@@ -14,7 +20,7 @@ pipeline {
 
       stage('Test_Checkmarx') {
          when {
-            branch 'dev'
+            branch 'qa'
          }
          steps {
             echo 'Testing Checkmarx...'
