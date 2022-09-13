@@ -20,7 +20,7 @@ pipeline {
 
       stage('Test_Checkmarx') {
          when {
-            branch 'qa'
+            branch 'dev'
          }
          steps {
             echo 'Testing Checkmarx...'
@@ -43,7 +43,7 @@ pipeline {
 
       stage('Test_Kiuwan') {
          when {
-            branch 'qa';
+            branch 'dev';
          }
          steps {
             echo 'Testing Kiuwan...'
@@ -53,7 +53,7 @@ pipeline {
 
       stage('Test_Snyk_SCA') {
          when {
-            branch 'qa';
+            branch 'dev';
          }
          steps {
             echo 'Testing Snyk SCA...'
@@ -67,7 +67,7 @@ pipeline {
 
       stage('Test_Snyk_SAST') {
          when {
-            branch 'qa';
+            branch 'dev';
          }
          steps {
             echo 'Testing Snyk SAST...'
@@ -98,6 +98,15 @@ pipeline {
          }
       }
 
+      stage('Package QA') {
+         when {
+            branch 'qa'
+         }
+         steps {
+            sh 'serverless package --stage qa'
+         }
+      }
+
       stage('Deploy to QA') {
          when {
             branch 'qa'
@@ -107,7 +116,16 @@ pipeline {
          }
       }
 
-      stage('Deploy to Production') {
+      stage('Package PROD') {
+         when {
+            branch 'main'
+         }
+         steps {
+            sh 'serverless package --stage prod'
+         }
+      }
+
+      stage('Deploy to PROD') {
          when {
             branch 'main'
          }
